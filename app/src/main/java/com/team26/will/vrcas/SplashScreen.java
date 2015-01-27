@@ -1,9 +1,16 @@
 package com.team26.will.vrcas;
 
-import android.support.v7.app.ActionBarActivity;
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.EditText;
+
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 
 
 public class SplashScreen extends ActionBarActivity {
@@ -12,6 +19,19 @@ public class SplashScreen extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash_screen);
+        findViewById(R.id.button).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                SplashScreen.this.startActivity(new Intent(String.valueOf(SplashScreen.this)));
+            }
+        });
+        findViewById(R.id.button).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                createFile();
+                SplashScreen.this.startActivity(new Intent(SplashScreen.this, VideoPlane.class));
+            }
+        });
     }
 
 
@@ -35,5 +55,29 @@ public class SplashScreen extends ActionBarActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public void createFile() {
+        EditText name = (EditText) findViewById(R.id.editText);
+        EditText number = (EditText) findViewById(R.id.editText2);
+        EditText bdate = (EditText) findViewById(R.id.editText3);
+        EditText cdate = (EditText) findViewById(R.id.editText4);
+
+        try {
+            FileOutputStream fOut = openFileOutput("file.txt", MODE_WORLD_READABLE);
+            fOut.write(name.toString().getBytes());
+            fOut.write(number.toString().getBytes());
+            fOut.write(bdate.toString().getBytes());
+            fOut.write(cdate.toString().getBytes());
+            fOut.close();
+            System.out.println("Path : " + getFilesDir());
+
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+
     }
 }
