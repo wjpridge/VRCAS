@@ -23,10 +23,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Please input your Name, Number, and Birthdate"
+        android:text="Please input your Name, Number, Birthdate, and Current Date in the fields below"
         android:id="@+id/textView"
-        android:layout_marginTop="96dp"
-        android:layout_alignParentTop="true"
+        android:textSize="18dp"
+        android:layout_below="@+id/textView2"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
 
@@ -71,5 +71,29 @@
         android:text="Birthdate"
         android:visibility="visible"
         android:selectAllOnFocus="true" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Begin Test"
+        android:id="@+id/button"
+        android:layout_below="@+id/editText3"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="61dp" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="date"
+        android:ems="10"
+        android:id="@+id/editText4"
+        android:text="Current Date"
+        android:visibility="visible"
+        android:selectAllOnFocus="true"
+        android:layout_below="@+id/editText3"
+        android:layout_alignRight="@+id/editText3"
+        android:layout_alignEnd="@+id/editText3"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
 
 </RelativeLayout>
