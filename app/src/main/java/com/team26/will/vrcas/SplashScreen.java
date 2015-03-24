@@ -1,11 +1,9 @@
 package com.team26.will.vrcas;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.v7.app.ActionBarActivity;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -17,8 +15,12 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 
-
 public class SplashScreen extends ActionBarActivity {
+
+    static String filename;
+    static File file;
+    FileOutputStream fileout;
+    static OutputStreamWriter fOut;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,7 +36,7 @@ public class SplashScreen extends ActionBarActivity {
             @Override
             public void onClick(View v) {
                 createFile();
-                SplashScreen.this.startActivity(new Intent(SplashScreen.this, VideoPlane.class));
+                SplashScreen.this.startActivity(new Intent(SplashScreen.this, VR_BALANCE_TEST.class));
             }
         });
     }
@@ -73,20 +75,21 @@ public class SplashScreen extends ActionBarActivity {
             sdCard.mkdirs();
             File directory = new File (sdCard.getAbsolutePath() + "/MyFiles");
             directory.mkdirs();
-            File file = new File(directory, name.getText().toString()+ ".txt");
-
+            file  = new File(directory, name.getText().toString()+ ".txt");
+            filename = name.getText().toString()+ ".txt";
             System.out.println(directory);
 
-            FileOutputStream fileout = new FileOutputStream(file);
-            OutputStreamWriter fOut = new OutputStreamWriter(fileout);
+            fileout = new FileOutputStream(file);
+            fOut = new OutputStreamWriter(fileout);
 
-            fOut.write(name.getText().toString()+ "\n");
-            fOut.write(number.getText().toString()+ "\n");
-            fOut.write(bdate.getText().toString()+ "\n");
-            fOut.write(cdate.getText().toString()+ "\n");
-            fOut.close();
+
+            fOut.write("FILESTART;\n");
+            fOut.write(name.getText().toString()+ ";\n");
+            fOut.write(number.getText().toString()+ ";\n");
+            fOut.write(bdate.getText().toString()+ ";\n");
+            fOut.write(cdate.getText().toString()+ ";\n");
             System.out.println("Path : " + getFilesDir());
-
+            fOut.flush();
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {

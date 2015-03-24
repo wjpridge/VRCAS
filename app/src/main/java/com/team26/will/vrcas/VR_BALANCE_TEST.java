@@ -2,21 +2,26 @@ package com.team26.will.vrcas;
 
 import com.team26.will.vrcas.util.SystemUiHider;
 
-import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.hardware.Sensor;
+import android.hardware.SensorEvent;
+import android.hardware.SensorEventListener;
+import android.hardware.SensorManager;
 import android.media.MediaPlayer;
 import android.media.MediaPlayer.OnCompletionListener;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Handler;
-import android.view.MotionEvent;
 import android.view.View;
 import android.widget.MediaController;
 import android.widget.VideoView;
 
+import java.io.IOException;
+import java.lang.String;
+
+import static com.team26.will.vrcas.SplashScreen.fOut;
 
 /**
  * An example full-screen activity that shows and hides the system UI (i.e.
@@ -24,7 +29,7 @@ import android.widget.VideoView;
  *
  * @see SystemUiHider
  */
-public class VideoPlane extends Activity implements OnCompletionListener {
+public class VR_BALANCE_TEST extends Activity implements OnCompletionListener, SensorEventListener {
 //    /**
 //     * Whether or not the system UI should be auto-hidden after
 //     * {@link #AUTO_HIDE_DELAY_MILLIS} milliseconds.
@@ -53,9 +58,16 @@ public class VideoPlane extends Activity implements OnCompletionListener {
 //     */
 //    private SystemUiHider mSystemUiHider;
 
+    SensorManager sensorManager;
+    double ax,ay,az;
+    long count = 0;
+    long time;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        sensorManager=(SensorManager) getSystemService(SENSOR_SERVICE);
+        sensorManager.registerListener(this, sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER), SensorManager.SENSOR_DELAY_FASTEST);
 
         int currentApiVersion;
         currentApiVersion = android.os.Build.VERSION.SDK_INT;
@@ -100,6 +112,7 @@ public class VideoPlane extends Activity implements OnCompletionListener {
                 v.setOnCompletionListener(this);
                 v.setVideoURI(Uri.parse(url));
                 v.start();
+
             }
 
         if (url == null) {
@@ -109,15 +122,64 @@ public class VideoPlane extends Activity implements OnCompletionListener {
 
     @Override
     public void onCompletion(MediaPlayer v) {
+        try {
+            fOut.flush();
+            VR_BALANCE_TEST.this.startActivity(new Intent(VR_BALANCE_TEST.this, BESS_TEST1.class));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         finish();
+    }
+
+    @Override
+    public void onPause(){
+        super.onPause();
+        try {
+            fOut.write("3D Video Paused");
+            fOut.flush();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        sensorManager.unregisterListener(this);
     }
 
     //Convenience method to show a video
     public static void showRemoteVideo(Context ctx, String url) {
-        Intent i = new Intent(ctx, VideoPlane.class);
+        Intent i = new Intent(ctx, VR_BALANCE_TEST.class);
 
         i.putExtra("url", url);
         ctx.startActivity(i);
     }
+
+    @Override
+    public void onSensorChanged(SensorEvent event) {
+        if (event.sensor.getType()==Sensor.TYPE_ACCELEROMETER){
+            ax=event.values[0];
+            ay=event.values[1];
+            az=event.values[2];
+            time = System.currentTimeMillis();
+            if(time > (count + 5)) {
+                count = time;
+                writeACC();
+            }
+        }
+    }
+
+    @Override
+    public void onAccuracyChanged(Sensor sensor, int accuracy) {
+
+    }
+
+    public void writeACC() {
+        System.out.println(count);
+        try {
+            fOut.write(count + ": " + String.valueOf(ax) + ", " + String.valueOf(ay) + ", " + String.valueOf(az) + ";\n");
+            fOut.flush();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+
 }
 

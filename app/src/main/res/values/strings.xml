@@ -8,5 +8,9 @@
     <string name="title_activity_video_plane">VideoPlane</string>
     <string name="dummy_button">Dummy Button</string>
     <string name="dummy_content">DUMMY\nCONTENT</string>
+    <string name="title_activity_bess__test1">BESS_TEST1</string>
+    <string name="Single.png">Single</string>
+    <string name="title_activity_bess__test2">BESS_TEST2</string>
+    <string name="title_activity_bess__test3">BESS_TEST3</string>
 
 </resources>

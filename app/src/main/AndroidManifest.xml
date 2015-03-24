@@ -2,6 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.team26.will.vrcas" >
 
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+
     <application
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
@@ -17,13 +19,29 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".VideoPlane"
+            android:name=".VR_BALANCE_TEST"
+            android:configChanges="orientation|screenSize"
             android:label="@string/title_activity_video_plane"
-            android:theme="@android:style/Theme.NoTitleBar.Fullscreen"
-            android:configChanges="orientation|screenSize">
+            android:theme="@android:style/Theme.NoTitleBar.Fullscreen" >
+        </activity>
+        <activity
+            android:name=".BESS_TEST1"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:label="@string/title_activity_bess__test1"
+            android:theme="@style/FullscreenTheme" >
+        </activity>
+        <activity
+            android:name=".BESS_TEST2"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:label="@string/title_activity_bess__test2"
+            android:theme="@style/FullscreenTheme" >
+        </activity>
+        <activity
+            android:name=".BESS_TEST3"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:label="@string/title_activity_bess__test3"
+            android:theme="@style/FullscreenTheme" >
         </activity>
     </application>
-
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
 </manifest>
