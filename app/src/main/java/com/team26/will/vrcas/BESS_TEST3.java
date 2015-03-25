@@ -3,6 +3,7 @@ package com.team26.will.vrcas;
 import com.team26.will.vrcas.util.SystemUiHider;
 
 import android.annotation.TargetApi;
+import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Intent;
 import android.hardware.Sensor;
@@ -81,6 +82,8 @@ public class BESS_TEST3 extends Activity implements SensorEventListener {
         textView3.setText("20");
         MyCountDownTimer countDownTimer = new MyCountDownTimer(startTime, interval);
         countDownTimer.start();
+        ActionBar actionBar = getActionBar();
+        actionBar.hide();
 
         try {
             fOut.write("Tandem Leg Test Start");
